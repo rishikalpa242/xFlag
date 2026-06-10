@@ -35,10 +35,10 @@ export default function RootLayout({
         {/* Scripts */}
         <Script src="/assets/js/jquery.min.js" strategy="afterInteractive" />
         <Script src="/assets/js/bootstrap.bundle.min.js" strategy="afterInteractive" />
-        <Script src="/assets/js/jquery.fancybox.min.js" strategy="lazyOnload" />
-        <Script src="/assets/js/owl.carousel.min.js" strategy="lazyOnload" />
-        <Script src="https://unpkg.com/aos@2.3.1/dist/aos.js" strategy="lazyOnload" />
-        <Script src="/assets/js/custom.js" strategy="lazyOnload" />
+        <Script src="/assets/js/jquery.fancybox.min.js" strategy="afterInteractive" />
+        <Script src="/assets/js/owl.carousel.min.js" strategy="afterInteractive" />
+        <Script src="https://unpkg.com/aos@2.3.1/dist/aos.js" strategy="afterInteractive" />
+        <Script src="/assets/js/custom.js" strategy="afterInteractive" />
       </body>
     </html>
   );

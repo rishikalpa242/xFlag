@@ -39,7 +39,8 @@ onloadmethod();
         responsive:{
             0:{ items:1, nav: false, },
             600:{ items:2 , nav: true,},
-            1000:{ items:3 }
+            1000:{ items:3 },
+            1200:{ items:4 }
         }
     });
 
@@ -60,15 +61,15 @@ onloadmethod();
 
 
     jQuery(".sponsors-carousel").owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
-        nav: true,
+        nav: false,
         dots: false,
         autoplay: true,
         autoplayTimeout: 3000,
         responsive:{
-            0:{ items:2, nav: false, },
-            600:{ items:3 , nav: true,},
+            0:{ items:2 },
+            600:{ items:3 },
             1000:{ items:4 },
             1200:{ items:5 }
         }
@@ -111,6 +112,10 @@ onloadmethod();
 
 
 
+
+    jQuery('#pills-tab button[data-bs-toggle="pill"]').on('shown.bs.tab', function () {
+        jQuery(".match-carousel").trigger('refresh.owl.carousel');
+    });
 
     jQuery("#new-prev").click(function () {
         jQuery(".match-carousel").trigger("prev.owl.carousel");

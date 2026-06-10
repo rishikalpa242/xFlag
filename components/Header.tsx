@@ -1,6 +1,10 @@
 import Link from 'next/link';
+import { readCmsData } from '@/lib/cms';
 
-export default function Header() {
+export default async function Header() {
+  const cms = await readCmsData();
+  const { logo1, logo2, navLinks, ctaButtons } = cms.header;
+
   return (
     <header className="header">
       <div className="top-header">
@@ -8,16 +12,22 @@ export default function Header() {
               <div className="row justify-content-between align-items-center">
                   <div className="col-auto logo">
                       <Link href="/">
-                          <img src="/assets/images/logo1.png" alt="Logo" />
-                          <img src="/assets/images/logo2.png" alt="Logo" />
+                          <img src={logo1} alt="Logo" />
+                          <img src={logo2} alt="Logo" />
                       </Link>
                   </div>
 
                   <div className="col right-area">
                       <div className="header-btn-col">
-                          <Link href="#" className="btn btn-primary book-btn">National Tournament</Link>
-                          <Link href="#" className="btn btn-info-primary">youth flag football</Link>
-                          <Link href="#" className="btn btn-primary book-btn">MY-ACCOUNT</Link>
+                          {ctaButtons.map(btn => (
+                            <Link
+                              key={btn.id}
+                              href={btn.href}
+                              className={`btn ${btn.variant === 'info' ? 'btn-info-primary' : 'btn-primary book-btn'}`}
+                            >
+                              {btn.label}
+                            </Link>
+                          ))}
                       </div>
 
                       {/* FOR MOBILE */}
@@ -38,51 +48,66 @@ export default function Header() {
           <div className="container-fluid">
               <div className="row">
                   <nav className="navbar navbar-expand-lg">
-                      {/* Normal Menu (Desktop) */}
+                      {/* Desktop Menu */}
                       <div className="collapse navbar-collapse d-none d-lg-flex">
                           <ul className="navbar-nav">
-                              <li className="nav-item"><Link className="nav-link" href="/">Home</Link></li>
-                              <li className="nav-item dropdown">
-                                  <Link className="nav-link dropdown-toggle" href="/about-us" data-bs-toggle="dropdown">About</Link>
-                                  <ul className="dropdown-menu">
-                                      <li><Link className="dropdown-item" href="/about-us">Our Team</Link></li>
-                                      <li><Link className="dropdown-item" href="/about-us">Our Story</Link></li>
-                                  </ul>
-                              </li>
-                              <li className="nav-item"><Link className="nav-link" href="/locations">Locations</Link></li>
-                              <li className="nav-item"><Link className="nav-link" href="/schedules">Schedules</Link></li>
-                              <li className="nav-item"><Link className="nav-link" href="/xstats">XStats</Link></li>
-                              <li className="nav-item"><Link className="nav-link" href="#">Shop Now</Link></li>
-                              <li className="nav-item"><Link className="nav-link" href="/resources">Resources</Link></li>
+                              {navLinks.map(link => (
+                                link.dropdown.length > 0 ? (
+                                  <li key={link.id} className="nav-item dropdown">
+                                      <Link className="nav-link dropdown-toggle" href={link.href} data-bs-toggle="dropdown">
+                                        {link.label}
+                                      </Link>
+                                      <ul className="dropdown-menu">
+                                          {link.dropdown.map(sub => (
+                                            <li key={sub.id}>
+                                              <Link className="dropdown-item" href={sub.href}>{sub.label}</Link>
+                                            </li>
+                                          ))}
+                                      </ul>
+                                  </li>
+                                ) : (
+                                  <li key={link.id} className="nav-item">
+                                    <Link className="nav-link" href={link.href}>{link.label}</Link>
+                                  </li>
+                                )
+                              ))}
                           </ul>
                       </div>
-                      {/* Offcanvas (Mobile) */}
+
+                      {/* Mobile Offcanvas */}
                       <div className="offcanvas offcanvas-end d-lg-none" tabIndex={-1} id="mobileMenu">
                           <div className="offcanvas-header">
-                              <div className="offcanvas-logo"><img src="/assets/images/logo2.png" alt="" /></div>
+                              <div className="offcanvas-logo"><img src={logo2} alt="" /></div>
                               <button type="button" className="btn-close" data-bs-dismiss="offcanvas"></button>
                           </div>
                           <div className="offcanvas-body">
                               <ul className="navbar-nav">
-                                  <li className="nav-item"><Link className="nav-link" href="/">Home</Link></li>
-                                  <li className="nav-item dropdown">
-                                      <Link className="nav-link dropdown-toggle" href="/about-us" data-bs-toggle="dropdown">About</Link>
-                                      <ul className="dropdown-menu">
-                                          <li><Link className="dropdown-item" href="/about-us">Our Team</Link></li>
-                                          <li><Link className="dropdown-item" href="/about-us">Our Story</Link></li>
-                                      </ul>
-                                  </li>
-                                  <li className="nav-item"><Link className="nav-link" href="/locations">Locations</Link></li>
-                                  <li className="nav-item"><Link className="nav-link" href="/schedules">Schedules</Link></li>
-                                  <li className="nav-item"><Link className="nav-link" href="/xstats">XStats</Link></li>
-                                  <li className="nav-item"><Link className="nav-link" href="#">Shop Now</Link></li>
-                                  <li className="nav-item"><Link className="nav-link" href="/resources">Resources</Link></li>
+                                  {navLinks.map(link => (
+                                    link.dropdown.length > 0 ? (
+                                      <li key={link.id} className="nav-item dropdown">
+                                          <Link className="nav-link dropdown-toggle" href={link.href} data-bs-toggle="dropdown">
+                                            {link.label}
+                                          </Link>
+                                          <ul className="dropdown-menu">
+                                              {link.dropdown.map(sub => (
+                                                <li key={sub.id}>
+                                                  <Link className="dropdown-item" href={sub.href}>{sub.label}</Link>
+                                                </li>
+                                              ))}
+                                          </ul>
+                                      </li>
+                                    ) : (
+                                      <li key={link.id} className="nav-item">
+                                        <Link className="nav-link" href={link.href}>{link.label}</Link>
+                                      </li>
+                                    )
+                                  ))}
                               </ul>
 
                               <div className="header-btn-col for-mobile">
-                                  <Link href="#" className="btn btn-info-primary">National Tournament</Link>
-                                  <Link href="#" className="btn btn-info-primary">youth flag football</Link>
-                                  <Link href="#" className="btn btn-info-primary">MY-ACCOUNT</Link>
+                                  {ctaButtons.map(btn => (
+                                    <Link key={btn.id} href={btn.href} className="btn btn-info-primary">{btn.label}</Link>
+                                  ))}
                                   <Link href="#"><img src="/assets/images/mob-xflag-btn.png" alt="" /></Link>
                               </div>
 
@@ -99,7 +124,6 @@ export default function Header() {
                   </nav>
 
                   <div className="right-part">
-                      {/* Social Icons */}
                       <ul className="social-icon">
                           <li><Link href="#"><i className="fa-brands fa-facebook-f"></i></Link></li>
                           <li><Link href="#"><i className="fa-brands fa-twitter"></i></Link></li>
@@ -107,7 +131,6 @@ export default function Header() {
                           <li><Link href="#"><i className="fa-brands fa-youtube"></i></Link></li>
                       </ul>
 
-                      {/* Search Bar */}
                       <div className="search-bar">
                           <div className="input-group">
                               <input type="text" className="form-control" placeholder="Search..." aria-label="Search" aria-describedby="search-addon" />

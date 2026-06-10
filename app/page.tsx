@@ -116,343 +116,208 @@ export default function Home() {
 
                 <div className="tab-content" id="pills-tabContent">
                     <div className="tab-pane fade show active" id="pills-upcoming" role="tabpanel" aria-labelledby="pills-upcoming-tab">
-                        <div className="row align-items-center">
-                            <div className="col-xl-3">
-                                <div className="heading-area">
-                                    <h2>Upcoming Matches</h2>
-
-                                    <div className="match-carousel-nav">
-                                        <button id="new-prev">
-                                            <span><i className="fa fa-angle-left"></i></span>
-                                        </button>
-                                        <button id="new-next">
-                                            <span><i className="fa fa-angle-right"></i></span>
-                                        </button>
+                        <div className="owl-carousel owl-theme match-carousel">
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
                                     </div>
-                                    
-
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
+                                    </div>
                                 </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
                             </div>
-
-                            <div className="col-xl-9">
-                                <div className="owl-carousel owl-theme match-carousel">
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
                                     </div>
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
-                                    </div>
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
-                                    </div>
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
                                     </div>
                                 </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                            </div>
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
+                                    </div>
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
+                                    </div>
+                                </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                            </div>
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
+                                    </div>
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
+                                    </div>
+                                </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
                             </div>
                         </div>
                     </div>
 
                     <div className="tab-pane fade" id="pills-previous" role="tabpanel" aria-labelledby="pills-previous-tab">
-                        <div className="row align-items-center">
-                            <div className="col-xl-3">
-                                <div className="heading-area">
-                                    <h2>Previous Games</h2>
-
-                                    <div className="match-carousel-nav">
-                                        <button id="new-prev">
-                                            <span><i className="fa fa-angle-left"></i></span>
-                                        </button>
-                                        <button id="new-next">
-                                            <span><i className="fa fa-angle-right"></i></span>
-                                        </button>
+                        <div className="owl-carousel owl-theme match-carousel">
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
                                     </div>
-                                    
-
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
+                                    </div>
                                 </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
                             </div>
-
-                            <div className="col-xl-9">
-                                <div className="owl-carousel owl-theme match-carousel">
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
                                     </div>
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
-                                    </div>
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
-                                    </div>
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
                                     </div>
                                 </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                            </div>
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
+                                    </div>
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
+                                    </div>
+                                </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                            </div>
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
+                                    </div>
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
+                                    </div>
+                                </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
                             </div>
                         </div>
                     </div>
 
                     <div className="tab-pane fade" id="pills-recent" role="tabpanel" aria-labelledby="pills-recent-tab">
-                        <div className="row align-items-center">
-                            <div className="col-xl-3">
-                                <div className="heading-area">
-                                    <h2>Recent Results</h2>
-
-                                    <div className="match-carousel-nav">
-                                        <button id="new-prev">
-                                            <span><i className="fa fa-angle-left"></i></span>
-                                        </button>
-                                        <button id="new-next">
-                                            <span><i className="fa fa-angle-right"></i></span>
-                                        </button>
+                        <div className="owl-carousel owl-theme match-carousel">
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
                                     </div>
-                                    
-
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
+                                    </div>
                                 </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
                             </div>
-
-                            <div className="col-xl-9">
-                                <div className="owl-carousel owl-theme match-carousel">
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
                                     </div>
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
-                                    </div>
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
-                                    </div>
-                                    <div className="item match-area">
-                                        <h4>sat 15 nov</h4>
-                                        <div className="middle-area">
-                                            <div className="a">
-                                                <span>
-                                                    <img src="/assets/images/team1.png" alt="Team 1" />
-                                                </span>
-                                                <h6>Cake Walk F25</h6>
-                                            </div>
-                                            <div className="b">
-                                                <span>vs</span>
-                                            </div>
-                                            <div className="c">
-                                                <img src="/assets/images/team2.png" alt="Team 2" />
-                                                <h6>Code Yellow F25</h6>
-                                            </div>
-                                        </div>
-                                        <div className="time">
-                                            <i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span>
-                                        </div>
-                                        <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
                                     </div>
                                 </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                            </div>
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
+                                    </div>
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
+                                    </div>
+                                </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
+                            </div>
+                            <div className="item match-area">
+                                <h4>sat 15 nov</h4>
+                                <div className="middle-area">
+                                    <div className="a">
+                                        <span><img src="/assets/images/team1.png" alt="Team 1" /></span>
+                                        <h6>Cake Walk F25</h6>
+                                    </div>
+                                    <div className="b"><span>vs</span></div>
+                                    <div className="c">
+                                        <img src="/assets/images/team2.png" alt="Team 2" />
+                                        <h6>Code Yellow F25</h6>
+                                    </div>
+                                </div>
+                                <div className="time"><i className="fa-solid fa-clock"></i><span>7 pm - 9 pm</span></div>
+                                <a href="#" className="btn"><i className="fa-solid fa-location-dot"></i> california san diego</a>
                             </div>
                         </div>
                     </div>
@@ -490,46 +355,44 @@ export default function Home() {
 
         <section className="upcoming-match-section match-highlights-section section-padding">
             <div className="container">
-                <div className="row align-items-center">
-                    <div className="col-xl-3">
+                <div className="row align-items-center justify-content-between">
+                    <div className="col-md-auto">
                         <div className="heading-area">
                             <h2>match highlights</h2>
-
-                            <div className="match-carousel-nav">
-                                <button id="mh-prev">
-                                    <span><i className="fa fa-angle-left"></i></span>
-                                </button>
-                                <button id="mh-next">
-                                    <span><i className="fa fa-angle-right"></i></span>
-                                </button>
-                            </div>
-                            
                         </div>
                     </div>
+                    <div className="col-md-auto">
+                        <div className="match-carousel-nav">
+                            <button id="mh-prev">
+                                <span><i className="fa fa-angle-left"></i></span>
+                            </button>
+                            <button id="mh-next">
+                                <span><i className="fa fa-angle-right"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div className="col-12"></div>
+                </div>
 
-                    <div className="col-xl-9">
-                        <div className="owl-carousel owl-theme match-highlights-carousel">
-                            <div className="item">
-                                <div className="image-area">
-                                    <img src="/assets/images/g1.jpg" alt="" />
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="image-area">
-                                    <img src="/assets/images/g2.jpg" alt="" />
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="image-area">
-                                    <img src="/assets/images/g3.jpg" alt="" />
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="image-area">
-                                    <img src="/assets/images/g4.jpg" alt="" />
-                                </div>
-                            </div>
-
+                <div className="owl-carousel owl-theme match-highlights-carousel">
+                    <div className="item">
+                        <div className="image-area">
+                            <img src="/assets/images/g1.jpg" alt="" />
+                        </div>
+                    </div>
+                    <div className="item">
+                        <div className="image-area">
+                            <img src="/assets/images/g2.jpg" alt="" />
+                        </div>
+                    </div>
+                    <div className="item">
+                        <div className="image-area">
+                            <img src="/assets/images/g3.jpg" alt="" />
+                        </div>
+                    </div>
+                    <div className="item">
+                        <div className="image-area">
+                            <img src="/assets/images/g4.jpg" alt="" />
                         </div>
                     </div>
                 </div>

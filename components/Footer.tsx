@@ -1,6 +1,10 @@
 import Link from 'next/link';
+import { readCmsData } from '@/lib/cms';
 
-export default function Footer() {
+export default async function Footer() {
+  const cms = await readCmsData();
+  const { logo, navColumns } = cms.footer;
+
   return (
     <>
       <footer>
@@ -9,7 +13,7 @@ export default function Footer() {
                   <div className="row gy-4">
                       <div className="col-xl-4">
                           <div className="logo-area">
-                              <img src="/assets/images/white-logo.png" alt="" />
+                              <img src={logo} alt="" />
                               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                               <ul className="social-icon">
                                   <li><Link href="#"> <i className="fa-brands fa-facebook-f"></i></Link></li>
@@ -20,41 +24,22 @@ export default function Footer() {
                       </div>
                       <div className="col-xl-8">
                           <div className="row gy-4">
-                              <div className="col-xl-3 col-6">
-                                  <div className="nav-area">
-                                      <h4>Home</h4>
-                                      <ul>
-                                          <li><Link href="/xstats">Xstats</Link></li>
-                                          <li><Link href="/locations">Locations</Link></li>
-                                          <li><Link href="#">Store</Link></li>
-                                          <li><Link href="#">Media</Link></li>
-                                      </ul>
-                                  </div>
-                              </div>
+                              {navColumns.map(col => (
+                                <div key={col.id} className="col-xl-3 col-6">
+                                    <div className="nav-area">
+                                        <h4>{col.title}</h4>
+                                        <ul>
+                                            {col.links.map(link => (
+                                              <li key={link.id}>
+                                                <Link href={link.href}>{link.label}</Link>
+                                              </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                              ))}
 
-                              <div className="col-xl-3 col-6">
-                                  <div className="nav-area">
-                                      <h4>About XFF</h4>
-                                      <ul>
-                                          <li><Link href="#">History</Link></li>
-                                          <li><Link href="#">Testimonials</Link></li>
-                                          <li><Link href="#">News Contact</Link></li>
-                                          <li><Link href="#">XFF</Link></li>
-                                      </ul>
-                                  </div>
-                              </div>
-
-                              <div className="col-xl-3 col-6">
-                                  <div className="nav-area">
-                                      <h4>Info</h4>
-                                      <ul>
-                                          <li><Link href="#">Expansion Opps</Link></li>
-                                          <li><Link href="#">Rules & Policies</Link></li>
-                                          <li><Link href="#">Waivers</Link></li>
-                                      </ul>
-                                  </div>
-                              </div>
-
+                              {/* Contact column — static */}
                               <div className="col-xl-3 col-6 contact-column">
                                   <div className="nav-area contact">
                                       <h4>Contact</h4>
@@ -70,7 +55,7 @@ export default function Footer() {
                   </div>
               </div>
           </div>
-          
+
           <div className="copyright-area">
               <div className="container">
                   <div className="row align-items-center justify-content-between">
@@ -80,7 +65,7 @@ export default function Footer() {
                       <div className="col-lg-auto">
                           <ul>
                               <li><Link href="#">privacy policy</Link></li>
-                              <li><Link href="#">terms & conditions</Link></li>
+                              <li><Link href="#">terms &amp; conditions</Link></li>
                           </ul>
                       </div>
                   </div>

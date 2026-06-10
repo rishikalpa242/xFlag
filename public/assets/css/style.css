@@ -909,6 +909,12 @@ header .hdr-mob-area {
 .match-highlights-section .heading-area {
   text-align: start;
 }
+.match-highlights-section .match-carousel-nav {
+  margin: 0;
+}
+.match-highlights-section .owl-carousel {
+  margin-top: 30px;
+}
 .match-highlights-section .owl-nav {
   opacity: 0;
   visibility: hidden;
@@ -989,6 +995,63 @@ header .hdr-mob-area {
 }
 .featured-venues-section .content-box-main .location i {
   margin-right: 10px;
+}
+
+.xflag-location h2 {
+  text-transform: uppercase;
+  color: #231F20;
+  margin-bottom: 40px;
+}
+.xflag-location .location-box {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+}
+.xflag-location .location-box .image-area {
+  position: relative;
+  z-index: 1;
+}
+.xflag-location .location-box .image-area img {
+  width: 100%;
+}
+.xflag-location .location-box .image-area::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(240, 0, 0, 0.82) 100%);
+}
+.xflag-location .location-box .content-area {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  padding: 15px;
+  width: 100%;
+  z-index: 2;
+  text-align: center;
+}
+.xflag-location .location-box .content-area h4 {
+  font-size: 20px;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.xflag-location .location-box .content-area p {
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 2px;
+}
+.xflag-location .location-box .content-area a {
+  color: #fff;
+  font-size: 15px;
+  text-decoration: underline;
+  text-transform: capitalize;
+  font-weight: 600;
 }
 
 .scoreboard-section {
@@ -1181,6 +1244,7 @@ header .hdr-mob-area {
 }
 .sponsors-section .sponsors-carousel {
   margin: 40px 0;
+  display: block !important;
 }
 .sponsors-section .sponsors-carousel .image-area {
   border: 1px solid rgba(0, 0, 0, 0.07);
@@ -1189,6 +1253,7 @@ header .hdr-mob-area {
   text-align: center;
 }
 .sponsors-section .sponsors-carousel .image-area img {
+  display: block;
   width: auto;
   height: 100px;
   -o-object-fit: contain;
