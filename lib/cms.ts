@@ -66,13 +66,120 @@ const DEFAULT_CMS: CmsData = {
       },
     ],
   },
+  homepage: {
+    banners: [
+      {
+        id: 'banner-1',
+        image: '/assets/images/banner1.jpg',
+        title: 'Experience the Power & Passion of FLAG FOOTBALL',
+        subtitle: 'The only League Spanning Coast to Coast.',
+        ctaText: 'National Tournaments',
+        ctaLink: '#',
+      },
+      {
+        id: 'banner-2',
+        image: '/assets/images/banner1.jpg',
+        title: 'Experience the Power & Passion of FLAG FOOTBALL',
+        subtitle: 'The only League Spanning Coast to Coast.',
+        ctaText: 'National Tournaments',
+        ctaLink: '#',
+      },
+      {
+        id: 'banner-3',
+        image: '/assets/images/banner1.jpg',
+        title: 'Experience the Power & Passion of FLAG FOOTBALL',
+        subtitle: 'The only League Spanning Coast to Coast.',
+        ctaText: 'National Tournaments',
+        ctaLink: '#',
+      },
+    ],
+    successSection: {
+      title: 'Success in Numbers',
+      stats: [
+        { id: 'stat-1', number: '18+', label: 'YEARS OF EXPERIENCE' },
+        { id: 'stat-2', number: '58+', label: 'Seasons' },
+        { id: 'stat-3', number: '1000+', label: 'Games Played' },
+        { id: 'stat-4', number: '800+', label: 'All -time Players' },
+      ],
+    },
+    stripBanner: {
+      image: '/assets/images/strip-banner1.jpg',
+      ctaText: 'Register now',
+      ctaLink: '#',
+    },
+    matchHighlights: {
+      title: 'match highlights',
+      images: [
+        { id: 'mh-1', image: '/assets/images/g1.jpg' },
+        { id: 'mh-2', image: '/assets/images/g2.jpg' },
+        { id: 'mh-3', image: '/assets/images/g3.jpg' },
+        { id: 'mh-4', image: '/assets/images/g4.jpg' },
+      ],
+    },
+    featuredLocations: {
+      title: 'Featured LOCATIONS',
+      locations: [
+        { id: 'loc-1', image: '/assets/images/location-img.jpg', title: 'Robb Field', address: '2525 Bacon St San Diego', link: '/location-details' },
+        { id: 'loc-2', image: '/assets/images/location-img.jpg', title: 'Robb Field', address: '2525 Bacon St San Diego', link: '/location-details' },
+        { id: 'loc-3', image: '/assets/images/location-img.jpg', title: 'Robb Field', address: '2525 Bacon St San Diego', link: '/location-details' },
+        { id: 'loc-4', image: '/assets/images/location-img.jpg', title: 'Robb Field', address: '2525 Bacon St San Diego', link: '/location-details' },
+      ],
+      ctaText: 'VIEW ALL LOCATIONS',
+      ctaLink: '/locations',
+    },
+    scoreboardSection: {
+      title: 'League Scoreboard',
+      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+      ctaText: 'VIEW MORE',
+      ctaLink: '#',
+    },
+    differenceSection: {
+      title: 'The Difference We Deliver',
+      subtitle: 'Experience, energy, and excellence in every match',
+      items: [
+        { id: 'diff-1', icon: '/assets/images/d1.png', title: 'Professional Game Management', description: 'Every match is organized with expert planning, from scheduling to scorekeeping.' },
+        { id: 'diff-2', icon: '/assets/images/d2.png', title: 'Fair Play & Safety First', description: 'Certified referees and strict safety standards ensure every player enjoys the game.' },
+        { id: 'diff-3', icon: '/assets/images/d3.png', title: 'Top-Class Facilities', description: 'We provide premium fields, quality gear, and smooth logistics for every event.' },
+        { id: 'diff-4', icon: '/assets/images/d4.png', title: 'Community & Team Spirit', description: 'We bring players together — building friendships, sportsmanship, and a growing Flag Football community.' },
+      ],
+      ctaText: 'Read MORE',
+      ctaLink: '#',
+    },
+    sponsorsSection: {
+      title: 'Sponsors',
+      sponsors: [
+        { id: 'sponsor-1', image: '/assets/images/s1.jpg' },
+        { id: 'sponsor-2', image: '/assets/images/s2.jpg' },
+        { id: 'sponsor-3', image: '/assets/images/s3.jpg' },
+        { id: 'sponsor-4', image: '/assets/images/s4.jpg' },
+        { id: 'sponsor-5', image: '/assets/images/s5.jpg' },
+      ],
+      ctaText: 'Want to Sponsor ?',
+      ctaLink: '#',
+    },
+    newsSection: {
+      title: 'League News and Updates',
+    },
+    testimonialsSection: {
+      title: 'What Our Players Say',
+      testimonials: [
+        { id: 'test-1', rating: 5, text: 'Best Flag Football Ever! Best Flag Football Ever! Best Flag Football Ever! Best Flag Football Ever! Best Flag Football Ever!', authorImage: '/assets/images/t1.png', authorName: 'John Flores', date: 'Aug 20, 2020' },
+        { id: 'test-2', rating: 5, text: 'Best Flag Football Ever! Best Flag Football Ever! Best Flag Football Ever! Best Flag Football Ever! Best Flag Football Ever!', authorImage: '/assets/images/t1.png', authorName: 'John Flores', date: 'Aug 20, 2020' },
+      ],
+    },
+  },
 };
 
 export async function readCmsData(): Promise<CmsData> {
   await connection();
   try {
     const raw = await readFile(CMS_FILE, 'utf-8');
-    return JSON.parse(raw) as CmsData;
+    const parsed = JSON.parse(raw) as Partial<CmsData>;
+    return {
+      header: parsed.header || DEFAULT_CMS.header,
+      footer: parsed.footer || DEFAULT_CMS.footer,
+      homepage: parsed.homepage || DEFAULT_CMS.homepage,
+    } as CmsData;
   } catch {
     return DEFAULT_CMS;
   }

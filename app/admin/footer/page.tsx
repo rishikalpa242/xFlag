@@ -111,71 +111,77 @@ export default function FooterAdminPage() {
   if (loading) return <div className="cms-page-loading">Loading…</div>;
   if (!data) return <div className="alert alert-danger">Failed to load data.</div>;
 
-  return (
     <div>
       <div className="cms-page-header">
         <div>
           <h1 className="cms-page-title">Footer Navigation</h1>
           <p className="cms-page-desc">Manage footer columns and their links.</p>
         </div>
-        <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
+        <button className="cms-btn cms-btn-primary" onClick={handleSave} disabled={saving}>
           {saving ? 'Saving…' : 'Save Changes'}
         </button>
       </div>
 
       {message && (
-        <div className={`alert alert-${message.type === 'success' ? 'success' : 'danger'} py-2 mb-4`}>
+        <div className={`cms-alert cms-alert-${message.type}`}>
+          <span className="cms-alert-icon">{message.type === 'success' ? '✓' : '⚠'}</span>
           {message.text}
         </div>
       )}
 
-      <div className="row g-3">
+      <div className="cms-grid">
         {data.navColumns.map((col) => (
-          <div key={col.id} className="col-md-6 col-xl-4">
+          <div key={col.id} className="cms-col-card">
             <div className="cms-card h-100">
               <div className="cms-card-header">
                 <input
                   type="text"
-                  className="form-control form-control-sm"
+                  className="cms-input cms-input-title"
                   value={col.title}
+                  placeholder="Column Title"
                   onChange={e => updateColumnTitle(col.id, e.target.value)}
-                  style={{ maxWidth: 160 }}
                 />
-                <button className="btn btn-sm btn-outline-danger" onClick={() => deleteColumn(col.id)}>
-                  Delete Column
+                <button className="cms-btn-icon cms-btn-danger" onClick={() => deleteColumn(col.id)} title="Delete Column">
+                  ✕
                 </button>
               </div>
               <div className="cms-card-body">
-                {col.links.map((link, idx) => (
-                  <div key={link.id} className="cms-footer-link-row">
-                    <span className="cms-link-num">{idx + 1}</span>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                      placeholder="Label"
-                      value={link.label}
-                      onChange={e => updateLink(col.id, link.id, 'label', e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                      placeholder="URL"
-                      value={link.href}
-                      onChange={e => updateLink(col.id, link.id, 'href', e.target.value)}
-                    />
-                    <button
-                      className="btn btn-sm btn-outline-danger"
-                      onClick={() => deleteLink(col.id, link.id)}
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))}
+                <div className="cms-links-container">
+                  {col.links.map((link, idx) => (
+                    <div key={link.id} className="cms-footer-link-row">
+                      <div className="cms-drag-handle">⋮⋮</div>
+                      <div className="cms-link-fields">
+                        <input
+                          type="text"
+                          className="cms-input cms-input-sm"
+                          placeholder="Label"
+                          value={link.label}
+                          onChange={e => updateLink(col.id, link.id, 'label', e.target.value)}
+                        />
+                        <input
+                          type="text"
+                          className="cms-input cms-input-sm"
+                          placeholder="URL"
+                          value={link.href}
+                          onChange={e => updateLink(col.id, link.id, 'href', e.target.value)}
+                        />
+                      </div>
+                      <button
+                        className="cms-btn-icon cms-btn-danger cms-btn-sm"
+                        onClick={() => deleteLink(col.id, link.id)}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
                 {col.links.length === 0 && (
-                  <p className="text-muted small text-center py-2">No links yet.</p>
+                  <div className="cms-empty-state-mini">
+                    <p>No links yet.</p>
+                  </div>
                 )}
                 <button
-                  className="btn btn-sm btn-link text-primary mt-2 p-0"
+                  className="cms-btn-text cms-mt-3"
                   onClick={() => addLink(col.id)}
                 >
                   + Add Link
@@ -185,76 +191,258 @@ export default function FooterAdminPage() {
           </div>
         ))}
 
-        <div className="col-md-6 col-xl-4 d-flex align-items-stretch">
+        <div className="cms-col-card">
           <button
-            className="btn btn-outline-secondary w-100 cms-add-column-btn"
+            className="cms-add-column-btn"
             onClick={addColumn}
           >
-            + Add Column
+            <span className="cms-add-icon">+</span>
+            <span>Add Column</span>
           </button>
         </div>
       </div>
 
-      <div className="mt-4 text-end">
-        <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
+      <div className="cms-page-actions">
+        <button className="cms-btn cms-btn-primary" onClick={handleSave} disabled={saving}>
           {saving ? 'Saving…' : 'Save Changes'}
         </button>
       </div>
 
       <style>{`
-        .cms-page-loading { padding: 40px; color: #555; }
+        .cms-page-loading { padding: 40px; color: #64748b; font-weight: 500; }
         .cms-page-header {
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
-          margin-bottom: 24px;
+          margin-bottom: 32px;
         }
-        .cms-page-title { font-size: 1.5rem; font-weight: 700; color: #1a1a2e; margin: 0 0 4px; }
-        .cms-page-desc { color: #666; font-size: 0.9rem; margin: 0; }
+        .cms-page-title { font-size: 1.75rem; font-weight: 700; color: #0f172a; margin: 0 0 8px; letter-spacing: -0.5px; }
+        .cms-page-desc { color: #64748b; font-size: 0.95rem; margin: 0; }
+        
+        .cms-alert {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 16px;
+          border-radius: 12px;
+          margin-bottom: 24px;
+          font-weight: 500;
+          font-size: 0.95rem;
+        }
+        .cms-alert-icon { font-size: 1.2rem; }
+        .cms-alert-success { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+        .cms-alert-error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+        .cms-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          gap: 24px;
+        }
+        .cms-col-card {
+          display: flex;
+          flex-direction: column;
+        }
+        .h-100 { height: 100%; }
+
         .cms-card {
-          background: #fff;
-          border-radius: 10px;
-          border: 1px solid #e0e0e0;
+          background: #ffffff;
+          border-radius: 16px;
+          border: 1px solid #e2e8f0;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
           overflow: hidden;
-          box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+          display: flex;
+          flex-direction: column;
         }
         .cms-card-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 14px 16px;
-          border-bottom: 1px solid #f0f0f0;
+          padding: 16px 20px;
+          border-bottom: 1px solid #f1f5f9;
           background: #fafafa;
-          gap: 8px;
+          gap: 12px;
         }
-        .cms-card-body { padding: 14px 16px; }
+        .cms-card-body { 
+          padding: 20px; 
+          flex: 1; 
+          display: flex; 
+          flex-direction: column; 
+        }
+        
+        .cms-links-container {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
         .cms-footer-link-row {
           display: flex;
           align-items: center;
-          gap: 6px;
-          margin-bottom: 8px;
+          gap: 8px;
+          background: #fff;
+          border: 1px solid #e2e8f0;
+          padding: 8px;
+          border-radius: 10px;
+          transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .cms-link-num {
-          width: 22px;
-          height: 22px;
-          background: #f0f2f5;
-          border-radius: 50%;
+        .cms-footer-link-row:hover {
+          border-color: #cbd5e1;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        
+        .cms-drag-handle {
+          color: #cbd5e1;
+          cursor: grab;
+          font-size: 1.1rem;
+          line-height: 1;
+          padding-left: 4px;
+        }
+        .cms-link-fields {
+          display: flex;
+          gap: 8px;
+          flex: 1;
+        }
+
+        .cms-input {
+          flex: 1;
+          min-width: 80px;
+          padding: 10px 14px;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          font-size: 0.95rem;
+          color: #334155;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .cms-input:focus {
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        .cms-input-sm {
+          padding: 8px 10px;
+          font-size: 0.85rem;
+        }
+        .cms-input-title {
+          font-weight: 600;
+          color: #0f172a;
+          border-color: transparent;
+          background: transparent;
+          padding: 6px 10px;
+        }
+        .cms-input-title:hover {
+          background: #f1f5f9;
+        }
+        .cms-input-title:focus {
+          background: #fff;
+          border-color: #3b82f6;
+        }
+
+        .cms-btn {
+          padding: 10px 18px;
+          border-radius: 8px;
+          font-weight: 600;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          border: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+        .cms-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .cms-btn-primary {
+          background: #3b82f6;
+          color: white;
+          box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+        }
+        .cms-btn-primary:hover:not(:disabled) {
+          background: #2563eb;
+          box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        }
+        .cms-btn-text {
+          background: transparent;
+          border: none;
+          color: #3b82f6;
+          font-size: 0.9rem;
+          font-weight: 500;
+          padding: 6px 12px;
+          border-radius: 6px;
+          cursor: pointer;
+          align-self: flex-start;
+        }
+        .cms-btn-text:hover {
+          background: #eff6ff;
+        }
+        .cms-mt-3 { margin-top: 12px; }
+
+        .cms-btn-icon {
+          width: 36px;
+          height: 36px;
+          border-radius: 8px;
+          border: 1px solid transparent;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 0.7rem;
-          color: #555;
+          cursor: pointer;
+          background: transparent;
+          transition: all 0.2s;
+          color: #94a3b8;
           flex-shrink: 0;
         }
+        .cms-btn-icon:hover {
+          background: #fee2e2;
+          color: #ef4444;
+          border-color: #fca5a5;
+        }
+        .cms-btn-sm {
+          width: 30px;
+          height: 30px;
+          border-radius: 6px;
+        }
+
+        .cms-empty-state-mini {
+          text-align: center;
+          padding: 16px;
+          background: #f8fafc;
+          border-radius: 8px;
+          border: 1px dashed #cbd5e1;
+          color: #64748b;
+          font-size: 0.9rem;
+        }
+
         .cms-add-column-btn {
-          min-height: 100px;
-          border: 2px dashed #ccc;
-          color: #888;
+          min-height: 160px;
+          height: 100%;
+          border: 2px dashed #cbd5e1;
+          border-radius: 16px;
+          background: #f8fafc;
+          color: #64748b;
           font-size: 1rem;
+          font-weight: 500;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          cursor: pointer;
+          transition: all 0.2s;
         }
         .cms-add-column-btn:hover {
-          border-color: #4361ee;
-          color: #4361ee;
+          border-color: #3b82f6;
+          color: #3b82f6;
+          background: #eff6ff;
+        }
+        .cms-add-icon {
+          font-size: 2rem;
+          line-height: 1;
+        }
+        
+        .cms-page-actions {
+          margin-top: 32px;
+          display: flex;
+          justify-content: flex-end;
+          padding-top: 24px;
+          border-top: 1px solid #e2e8f0;
         }
       `}</style>
     </div>

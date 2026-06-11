@@ -2,8 +2,12 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import { getLiveOrganization } from '@/lib/flagmag';
 
-export default function Locations() {
+export default async function Locations() {
+  const org = await getLiveOrganization();
+  const locations = org?.locations || [];
+
   return (
     <div className="wrapper">
       <Header />
@@ -12,7 +16,7 @@ export default function Locations() {
         <div className="container">
           <ul>
             <li><Link href="/">Home</Link></li>
-            <li>locations</li>
+            <li>Locations</li>
           </ul>
         </div>
       </div>
@@ -22,7 +26,7 @@ export default function Locations() {
           <img src="/assets/images/about-banner.jpg" alt="" />
         </div>
         <div className="container">
-          <h1>locations</h1>
+          <h1>LOCATIONS</h1>
         </div>
       </section>
 
@@ -31,9 +35,9 @@ export default function Locations() {
           <div className="location-area">
             <h4>Select Location</h4>
             <div className="input-group">
-              <input type="text" className="form-control" placeholder="Search..." aria-label="Search" aria-describedby="loc-search-addon" />
-              <button className="btn btn-primary" type="button" id="loc-search-addon">
-                Search <i className="fas fa-search"></i>
+              <input type="text" className="form-control" placeholder="Search..." aria-label="Search" aria-describedby="search-addon" />
+              <button className="btn btn-primary" type="button" id="search-addon">
+                SEARCH <i className="fas fa-search"></i>
               </button>
             </div>
           </div>
@@ -42,22 +46,24 @@ export default function Locations() {
 
       <section className="xflag-location section-padding">
         <div className="container">
-          <h2>Xflag Locations</h2>
+          <h2>XFLAG LOCATIONS</h2>
           <div className="row g-4">
-            {[0,1,2,3,4,5,6,7].map((i) => (
+            {locations.length > 0 ? locations.map((loc: any, i: number) => (
               <div key={i} className="col-sm-6 col-xl-3">
                 <div className="location-box">
                   <div className="image-area">
                     <img src="/assets/images/location-img.jpg" alt="" />
                   </div>
                   <div className="content-area">
-                    <h4>Robb Field</h4>
-                    <p>2525 Bacon St San Diego</p>
-                    <Link href="/location-details">details</Link>
+                    <h4>{(loc.locationName || loc.cityName).toUpperCase()}</h4>
+                    <p>{loc.cityName}, {loc.stateAbbr}</p>
+                    <Link href={`/locations/${loc._id}`}>Details</Link>
                   </div>
                 </div>
               </div>
-            ))}
+            )) : (
+              <div className="col-12 text-center text-muted py-5">No locations found.</div>
+            )}
           </div>
         </div>
       </section>

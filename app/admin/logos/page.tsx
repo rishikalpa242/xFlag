@@ -85,22 +85,22 @@ export default function LogosAdminPage() {
     },
   ];
 
-  if (loading) return <div style={{ padding: 40, color: '#555' }}>Loading…</div>;
+  if (loading) return <div className="cms-page-loading">Loading…</div>;
 
   return (
     <div>
-      <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1a1a2e', margin: '0 0 4px' }}>
-          Logos
-        </h1>
-        <p style={{ color: '#666', fontSize: '0.9rem', margin: 0 }}>
-          Upload replacement logos. Accepted formats: JPEG, PNG, WebP, SVG (max 5 MB).
-        </p>
+      <div className="cms-page-header">
+        <div>
+          <h1 className="cms-page-title">Logos</h1>
+          <p className="cms-page-desc">
+            Upload replacement logos. Accepted formats: JPEG, PNG, WebP, SVG (max 5 MB).
+          </p>
+        </div>
       </div>
 
-      <div className="row g-4">
+      <div className="cms-grid">
         {logoConfigs.map(logo => (
-          <div key={logo.field} className="col-md-6 col-xl-4">
+          <div key={logo.field} className="cms-col-card">
             <LogoCard
               info={logo}
               status={uploadStatus[logo.field] ?? ''}
@@ -109,6 +109,28 @@ export default function LogosAdminPage() {
           </div>
         ))}
       </div>
+
+      <style>{`
+        .cms-page-loading { padding: 40px; color: #64748b; font-weight: 500; }
+        .cms-page-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 32px;
+        }
+        .cms-page-title { font-size: 1.75rem; font-weight: 700; color: #0f172a; margin: 0 0 8px; letter-spacing: -0.5px; }
+        .cms-page-desc { color: #64748b; font-size: 0.95rem; margin: 0; }
+        
+        .cms-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          gap: 24px;
+        }
+        .cms-col-card {
+          display: flex;
+          flex-direction: column;
+        }
+      `}</style>
     </div>
   );
 }
@@ -124,6 +146,7 @@ function LogoCard({
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -131,6 +154,18 @@ function LogoCard({
     const objectUrl = URL.createObjectURL(file);
     setPreview(objectUrl);
     onUpload(file);
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      const objectUrl = URL.createObjectURL(file);
+      setPreview(objectUrl);
+      onUpload(file);
+    }
   }
 
   const isUploading = status === 'uploading';
@@ -141,51 +176,50 @@ function LogoCard({
   const displaySrc = preview ?? (info.currentSrc ? info.currentSrc : null);
 
   return (
-    <div style={{
-      background: '#fff',
-      borderRadius: 10,
-      border: '1px solid #e0e0e0',
-      overflow: 'hidden',
-      boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-    }}>
-      <div style={{ padding: '14px 16px', borderBottom: '1px solid #f0f0f0', background: '#fafafa' }}>
-        <h6 style={{ margin: 0, fontWeight: 600, color: '#222' }}>{info.title}</h6>
-        <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#888' }}>{info.description}</p>
+    <div className="cms-logo-card">
+      <div className="cms-logo-card-header">
+        <div className="cms-logo-title-wrap">
+          <span className="cms-logo-icon">🖼️</span>
+          <h6>{info.title}</h6>
+        </div>
+        <p>{info.description}</p>
       </div>
 
-      <div style={{ padding: 16 }}>
-        {/* Logo preview */}
-        <div style={{
-          background: info.field === 'footerLogo' ? '#1a1a2e' : '#f8f9fa',
-          borderRadius: 8,
-          height: 100,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: 14,
-          border: '1px solid #eee',
-        }}>
-          {displaySrc ? (
-            <img
-              src={displaySrc}
-              alt={info.title}
-              style={{ maxHeight: 80, maxWidth: '90%', objectFit: 'contain' }}
-            />
-          ) : (
-            <span style={{ color: '#aaa', fontSize: '0.85rem' }}>No logo set</span>
-          )}
+      <div className="cms-logo-card-body">
+        {/* Upload status overlay / badges */}
+        <div className="cms-logo-status-container">
+          {isUploading && <span className="cms-badge cms-badge-info">Uploading...</span>}
+          {isSuccess && <span className="cms-badge cms-badge-success">✓ Updated</span>}
+          {isError && <span className="cms-badge cms-badge-error">⚠ {errorText}</span>}
         </div>
 
-        {/* Upload status */}
-        {isUploading && (
-          <div className="alert alert-info py-1 small mb-2">Uploading…</div>
-        )}
-        {isSuccess && (
-          <div className="alert alert-success py-1 small mb-2">Logo updated!</div>
-        )}
-        {isError && (
-          <div className="alert alert-danger py-1 small mb-2">{errorText}</div>
-        )}
+        <div 
+          className={`cms-logo-dropzone ${isDragging ? 'dragging' : ''}`}
+          onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setIsDragging(true); }}
+          onDragEnter={(e) => { e.preventDefault(); e.stopPropagation(); setIsDragging(true); }}
+          onDragLeave={(e) => { e.preventDefault(); e.stopPropagation(); setIsDragging(false); }}
+          onDrop={handleDrop}
+          onClick={() => inputRef.current?.click()}
+          style={{ background: info.field === 'footerLogo' ? '#0f172a' : '#f8fafc' }}
+        >
+          {displaySrc ? (
+            <div className="cms-logo-preview-wrap">
+              <img
+                src={displaySrc}
+                alt={info.title}
+                className="cms-logo-preview-img"
+              />
+              <div className="cms-logo-hover-overlay">
+                <span>Click or drop to replace</span>
+              </div>
+            </div>
+          ) : (
+            <div className="cms-logo-empty">
+              <span className="cms-upload-icon">☁️</span>
+              <p>Click or drop file here</p>
+            </div>
+          )}
+        </div>
 
         <input
           ref={inputRef}
@@ -195,13 +229,177 @@ function LogoCard({
           onChange={handleFileChange}
         />
         <button
-          className="btn btn-outline-primary btn-sm w-100"
+          className="cms-btn cms-btn-outline w-100"
           onClick={() => inputRef.current?.click()}
           disabled={isUploading}
         >
-          {isUploading ? 'Uploading…' : 'Upload New Logo'}
+          {isUploading ? 'Uploading…' : 'Browse Files'}
         </button>
       </div>
+
+      <style>{`
+        .cms-logo-card {
+          background: #ffffff;
+          border-radius: 16px;
+          border: 1px solid #e2e8f0;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+        .cms-logo-card-header {
+          padding: 20px 24px;
+          border-bottom: 1px solid #f1f5f9;
+          background: #fafafa;
+        }
+        .cms-logo-title-wrap {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 8px;
+        }
+        .cms-logo-icon {
+          font-size: 1.2rem;
+        }
+        .cms-logo-card-header h6 {
+          margin: 0;
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #1e293b;
+        }
+        .cms-logo-card-header p {
+          margin: 0;
+          font-size: 0.85rem;
+          color: #64748b;
+          line-height: 1.4;
+        }
+        
+        .cms-logo-card-body {
+          padding: 24px;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+        }
+        
+        .cms-logo-status-container {
+          min-height: 28px;
+          margin-bottom: 12px;
+          display: flex;
+          justify-content: flex-end;
+        }
+        .cms-badge {
+          padding: 4px 10px;
+          border-radius: 20px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          display: inline-flex;
+          align-items: center;
+        }
+        .cms-badge-info { background: #eff6ff; color: #2563eb; }
+        .cms-badge-success { background: #ecfdf5; color: #059669; }
+        .cms-badge-error { background: #fef2f2; color: #dc2626; }
+
+        .cms-logo-dropzone {
+          border-radius: 12px;
+          border: 2px dashed #cbd5e1;
+          height: 140px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 20px;
+          cursor: pointer;
+          transition: all 0.2s;
+          position: relative;
+          overflow: hidden;
+        }
+        .cms-logo-dropzone:hover, .cms-logo-dropzone.dragging {
+          border-color: #3b82f6;
+        }
+        .cms-logo-dropzone.dragging {
+          background: #eff6ff !important;
+        }
+        
+        .cms-logo-preview-wrap {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 16px;
+          position: relative;
+        }
+        .cms-logo-preview-img {
+          max-height: 100px;
+          max-width: 90%;
+          object-fit: contain;
+          transition: transform 0.2s;
+        }
+        .cms-logo-hover-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(15, 23, 42, 0.7);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: opacity 0.2s;
+        }
+        .cms-logo-hover-overlay span {
+          color: white;
+          font-weight: 500;
+          font-size: 0.9rem;
+          background: rgba(255,255,255,0.2);
+          padding: 6px 14px;
+          border-radius: 20px;
+        }
+        .cms-logo-dropzone:hover .cms-logo-hover-overlay {
+          opacity: 1;
+        }
+        
+        .cms-logo-empty {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          color: #94a3b8;
+        }
+        .cms-upload-icon {
+          font-size: 2rem;
+          opacity: 0.6;
+        }
+        .cms-logo-empty p {
+          margin: 0;
+          font-size: 0.9rem;
+          font-weight: 500;
+        }
+
+        .cms-btn {
+          padding: 10px 18px;
+          border-radius: 8px;
+          font-weight: 600;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          border: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+        .cms-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .cms-btn-outline {
+          background: transparent;
+          border: 1px solid #cbd5e1;
+          color: #475569;
+        }
+        .cms-btn-outline:hover:not(:disabled) {
+          background: #f8fafc;
+          border-color: #94a3b8;
+          color: #1e293b;
+        }
+        .w-100 { width: 100%; }
+      `}</style>
     </div>
   );
 }

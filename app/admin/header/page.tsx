@@ -148,13 +148,14 @@ export default function HeaderAdminPage() {
           <h1 className="cms-page-title">Header Navigation</h1>
           <p className="cms-page-desc">Manage the main navigation links and top CTA buttons.</p>
         </div>
-        <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
+        <button className="cms-btn cms-btn-primary" onClick={handleSave} disabled={saving}>
           {saving ? 'Saving…' : 'Save Changes'}
         </button>
       </div>
 
       {message && (
-        <div className={`alert alert-${message.type === 'success' ? 'success' : 'danger'} py-2 mb-4`}>
+        <div className={`cms-alert cms-alert-${message.type}`}>
+          <span className="cms-alert-icon">{message.type === 'success' ? '✓' : '⚠'}</span>
           {message.text}
         </div>
       )}
@@ -162,222 +163,391 @@ export default function HeaderAdminPage() {
       {/* Nav Links */}
       <div className="cms-card">
         <div className="cms-card-header">
-          <h5>Navigation Links</h5>
-          <button className="btn btn-sm btn-outline-primary" onClick={addNavLink}>+ Add Link</button>
+          <div className="cms-card-title">
+            <span className="cms-card-icon">☰</span>
+            <h5>Navigation Links</h5>
+          </div>
+          <button className="cms-btn cms-btn-outline" onClick={addNavLink}>+ Add Link</button>
         </div>
         <div className="cms-card-body">
-          {data.navLinks.map((link, idx) => (
-            <div key={link.id} className="cms-link-row">
-              <div className="cms-link-main">
-                <span className="cms-link-num">{idx + 1}</span>
-                <div className="cms-link-fields">
-                  <input
-                    type="text"
-                    className="form-control form-control-sm"
-                    placeholder="Label"
-                    value={link.label}
-                    onChange={e => updateNavLink(link.id, 'label', e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    className="form-control form-control-sm"
-                    placeholder="URL e.g. /about-us"
-                    value={link.href}
-                    onChange={e => updateNavLink(link.id, 'href', e.target.value)}
-                  />
+          <div className="cms-links-container">
+            {data.navLinks.map((link, idx) => (
+              <div key={link.id} className="cms-link-row">
+                <div className="cms-link-main">
+                  <div className="cms-drag-handle">⋮⋮</div>
+                  <span className="cms-link-num">{idx + 1}</span>
+                  <div className="cms-link-fields">
+                    <input
+                      type="text"
+                      className="cms-input"
+                      placeholder="Label (e.g. Home)"
+                      value={link.label}
+                      onChange={e => updateNavLink(link.id, 'label', e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      className="cms-input"
+                      placeholder="URL (e.g. /home)"
+                      value={link.href}
+                      onChange={e => updateNavLink(link.id, 'href', e.target.value)}
+                    />
+                  </div>
+                  <button
+                    className="cms-btn-icon cms-btn-danger"
+                    onClick={() => deleteNavLink(link.id)}
+                    title="Delete link"
+                  >
+                    ✕
+                  </button>
                 </div>
-                <button
-                  className="btn btn-sm btn-outline-danger"
-                  onClick={() => deleteNavLink(link.id)}
-                  title="Delete link"
-                >
-                  ✕
-                </button>
-              </div>
 
-              {/* Dropdown items */}
-              {link.dropdown.length > 0 && (
-                <div className="cms-dropdown-list">
-                  {link.dropdown.map(item => (
-                    <div key={item.id} className="cms-dropdown-row">
-                      <span className="cms-dropdown-arrow">↳</span>
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                        placeholder="Sub-label"
-                        value={item.label}
-                        onChange={e => updateDropdownItem(link.id, item.id, 'label', e.target.value)}
-                      />
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                        placeholder="Sub-URL"
-                        value={item.href}
-                        onChange={e => updateDropdownItem(link.id, item.id, 'href', e.target.value)}
-                      />
-                      <button
-                        className="btn btn-sm btn-outline-danger"
-                        onClick={() => deleteDropdownItem(link.id, item.id)}
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
+                {/* Dropdown items */}
+                {link.dropdown.length > 0 && (
+                  <div className="cms-dropdown-list">
+                    {link.dropdown.map(item => (
+                      <div key={item.id} className="cms-dropdown-row">
+                        <span className="cms-dropdown-arrow">↳</span>
+                        <input
+                          type="text"
+                          className="cms-input cms-input-sm"
+                          placeholder="Sub-label"
+                          value={item.label}
+                          onChange={e => updateDropdownItem(link.id, item.id, 'label', e.target.value)}
+                        />
+                        <input
+                          type="text"
+                          className="cms-input cms-input-sm"
+                          placeholder="Sub-URL"
+                          value={item.href}
+                          onChange={e => updateDropdownItem(link.id, item.id, 'href', e.target.value)}
+                        />
+                        <button
+                          className="cms-btn-icon cms-btn-danger cms-btn-sm"
+                          onClick={() => deleteDropdownItem(link.id, item.id)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="cms-add-sub-wrapper">
+                  <button
+                    className="cms-btn-text"
+                    onClick={() => addDropdownItem(link.id)}
+                  >
+                    + Add dropdown item
+                  </button>
                 </div>
-              )}
-              <button
-                className="btn btn-sm btn-link text-muted cms-add-sub"
-                onClick={() => addDropdownItem(link.id)}
-              >
-                + Add dropdown item
-              </button>
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
 
           {data.navLinks.length === 0 && (
-            <p className="text-muted text-center py-3">No nav links. Click &quot;Add Link&quot; to start.</p>
+            <div className="cms-empty-state">
+              <span className="cms-empty-icon">📂</span>
+              <p>No navigation links defined.</p>
+              <button className="cms-btn cms-btn-outline" onClick={addNavLink}>Create First Link</button>
+            </div>
           )}
         </div>
       </div>
 
       {/* CTA Buttons */}
-      <div className="cms-card mt-4">
+      <div className="cms-card mt-5">
         <div className="cms-card-header">
-          <h5>Top CTA Buttons</h5>
-          <button className="btn btn-sm btn-outline-primary" onClick={addCtaButton}>+ Add Button</button>
+          <div className="cms-card-title">
+            <span className="cms-card-icon">⚡</span>
+            <h5>Top CTA Buttons</h5>
+          </div>
+          <button className="cms-btn cms-btn-outline" onClick={addCtaButton}>+ Add Button</button>
         </div>
         <div className="cms-card-body">
-          {data.ctaButtons.map((btn, idx) => (
-            <div key={btn.id} className="cms-link-row">
-              <div className="cms-link-main">
-                <span className="cms-link-num">{idx + 1}</span>
-                <div className="cms-link-fields">
-                  <input
-                    type="text"
-                    className="form-control form-control-sm"
-                    placeholder="Button Label"
-                    value={btn.label}
-                    onChange={e => updateCtaButton(btn.id, 'label', e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    className="form-control form-control-sm"
-                    placeholder="URL"
-                    value={btn.href}
-                    onChange={e => updateCtaButton(btn.id, 'href', e.target.value)}
-                  />
-                  <select
-                    className="form-select form-select-sm"
-                    value={btn.variant}
-                    onChange={e => updateCtaButton(btn.id, 'variant', e.target.value)}
-                    style={{ maxWidth: 120 }}
+          <div className="cms-links-container">
+            {data.ctaButtons.map((btn, idx) => (
+              <div key={btn.id} className="cms-link-row">
+                <div className="cms-link-main">
+                  <span className="cms-link-num">{idx + 1}</span>
+                  <div className="cms-link-fields">
+                    <input
+                      type="text"
+                      className="cms-input"
+                      placeholder="Button Label"
+                      value={btn.label}
+                      onChange={e => updateCtaButton(btn.id, 'label', e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      className="cms-input"
+                      placeholder="URL"
+                      value={btn.href}
+                      onChange={e => updateCtaButton(btn.id, 'href', e.target.value)}
+                    />
+                    <select
+                      className="cms-input"
+                      value={btn.variant}
+                      onChange={e => updateCtaButton(btn.id, 'variant', e.target.value)}
+                      style={{ maxWidth: 140 }}
+                    >
+                      <option value="primary">Primary</option>
+                      <option value="info">Info</option>
+                      <option value="secondary">Secondary</option>
+                    </select>
+                  </div>
+                  <button
+                    className="cms-btn-icon cms-btn-danger"
+                    onClick={() => deleteCtaButton(btn.id)}
                   >
-                    <option value="primary">Primary</option>
-                    <option value="info">Info</option>
-                    <option value="secondary">Secondary</option>
-                  </select>
+                    ✕
+                  </button>
                 </div>
-                <button
-                  className="btn btn-sm btn-outline-danger"
-                  onClick={() => deleteCtaButton(btn.id)}
-                >
-                  ✕
-                </button>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
 
           {data.ctaButtons.length === 0 && (
-            <p className="text-muted text-center py-3">No CTA buttons.</p>
+            <p className="cms-empty-state-text">No CTA buttons configured.</p>
           )}
         </div>
       </div>
 
-      <div className="mt-4 text-end">
-        <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
+      <div className="cms-page-actions">
+        <button className="cms-btn cms-btn-primary" onClick={handleSave} disabled={saving}>
           {saving ? 'Saving…' : 'Save Changes'}
         </button>
       </div>
 
       <style>{`
-        .cms-page-loading { padding: 40px; color: #555; }
+        .cms-page-loading { padding: 40px; color: #64748b; font-weight: 500; }
         .cms-page-header {
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
+          margin-bottom: 32px;
+        }
+        .cms-page-title { font-size: 1.75rem; font-weight: 700; color: #0f172a; margin: 0 0 8px; letter-spacing: -0.5px; }
+        .cms-page-desc { color: #64748b; font-size: 0.95rem; margin: 0; }
+        
+        .cms-alert {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 16px;
+          border-radius: 12px;
           margin-bottom: 24px;
+          font-weight: 500;
+          font-size: 0.95rem;
         }
-        .cms-page-title { font-size: 1.5rem; font-weight: 700; color: #1a1a2e; margin: 0 0 4px; }
-        .cms-page-desc { color: #666; font-size: 0.9rem; margin: 0; }
+        .cms-alert-icon { font-size: 1.2rem; }
+        .cms-alert-success { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+        .cms-alert-error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
         .cms-card {
-          background: #fff;
-          border-radius: 10px;
-          border: 1px solid #e0e0e0;
+          background: #ffffff;
+          border-radius: 16px;
+          border: 1px solid #e2e8f0;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
           overflow: hidden;
-          box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         }
+        .mt-5 { margin-top: 32px; }
         .cms-card-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 16px 20px;
-          border-bottom: 1px solid #f0f0f0;
+          padding: 20px 24px;
+          border-bottom: 1px solid #f1f5f9;
           background: #fafafa;
         }
-        .cms-card-header h5 { margin: 0; font-size: 0.95rem; font-weight: 600; color: #222; }
-        .cms-card-body { padding: 16px 20px; }
-        .cms-link-row {
-          border: 1px solid #eee;
-          border-radius: 8px;
-          margin-bottom: 10px;
-          padding: 12px;
-          background: #fff;
-        }
-        .cms-link-main {
+        .cms-card-title {
           display: flex;
           align-items: center;
           gap: 10px;
         }
+        .cms-card-icon {
+          color: #3b82f6;
+          font-size: 1.2rem;
+        }
+        .cms-card-header h5 { margin: 0; font-size: 1.1rem; font-weight: 600; color: #1e293b; }
+        .cms-card-body { padding: 24px; }
+        
+        .cms-links-container {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+        .cms-link-row {
+          border: 1px solid #e2e8f0;
+          border-radius: 12px;
+          padding: 16px;
+          background: #fff;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .cms-link-row:hover {
+          border-color: #cbd5e1;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .cms-link-main {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .cms-drag-handle {
+          color: #cbd5e1;
+          cursor: grab;
+          font-size: 1.2rem;
+          line-height: 1;
+        }
         .cms-link-num {
-          width: 24px;
-          height: 24px;
-          background: #f0f2f5;
+          width: 28px;
+          height: 28px;
+          background: #f1f5f9;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 0.75rem;
-          color: #555;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: #64748b;
           flex-shrink: 0;
         }
+        
         .cms-link-fields {
           display: flex;
-          gap: 8px;
+          gap: 12px;
           flex: 1;
           flex-wrap: wrap;
         }
-        .cms-link-fields .form-control,
-        .cms-link-fields .form-select {
+        .cms-input {
           flex: 1;
-          min-width: 120px;
+          min-width: 150px;
+          padding: 10px 14px;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          font-size: 0.95rem;
+          color: #334155;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
         }
+        .cms-input:focus {
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        .cms-input-sm {
+          padding: 8px 12px;
+          font-size: 0.9rem;
+        }
+
         .cms-dropdown-list {
-          margin-top: 8px;
-          padding-left: 34px;
+          margin-top: 16px;
+          padding-left: 56px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
         }
         .cms-dropdown-row {
           display: flex;
           align-items: center;
-          gap: 8px;
-          margin-bottom: 6px;
+          gap: 12px;
+          position: relative;
         }
-        .cms-dropdown-arrow { color: #999; flex-shrink: 0; }
-        .cms-add-sub {
-          margin-top: 6px;
-          padding: 0;
-          font-size: 0.8rem;
-          padding-left: 34px;
-          display: block;
+        .cms-dropdown-arrow { 
+          color: #94a3b8; 
+          flex-shrink: 0;
+          font-size: 1.2rem;
+          transform: translateY(-4px);
+        }
+        .cms-add-sub-wrapper {
+          margin-top: 12px;
+          padding-left: 56px;
+        }
+
+        .cms-btn {
+          padding: 10px 18px;
+          border-radius: 8px;
+          font-weight: 600;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          border: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+        .cms-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .cms-btn-primary {
+          background: #3b82f6;
+          color: white;
+          box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+        }
+        .cms-btn-primary:hover:not(:disabled) {
+          background: #2563eb;
+          box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        }
+        .cms-btn-outline {
+          background: transparent;
+          border: 1px solid #cbd5e1;
+          color: #475569;
+        }
+        .cms-btn-outline:hover {
+          background: #f8fafc;
+          border-color: #94a3b8;
+          color: #1e293b;
+        }
+        .cms-btn-text {
+          background: transparent;
+          border: none;
+          color: #3b82f6;
+          font-size: 0.9rem;
+          font-weight: 500;
+          padding: 4px 8px;
+          border-radius: 6px;
+          cursor: pointer;
+        }
+        .cms-btn-text:hover {
+          background: #eff6ff;
+        }
+
+        .cms-btn-icon {
+          width: 36px;
+          height: 36px;
+          border-radius: 8px;
+          border: 1px solid transparent;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          background: transparent;
+          transition: all 0.2s;
+          color: #94a3b8;
+        }
+        .cms-btn-icon:hover {
+          background: #fee2e2;
+          color: #ef4444;
+          border-color: #fca5a5;
+        }
+        .cms-btn-sm {
+          width: 32px;
+          height: 32px;
+        }
+
+        .cms-empty-state {
+          padding: 48px 24px;
+          text-align: center;
+          background: #f8fafc;
+          border-radius: 12px;
+          border: 1px dashed #cbd5e1;
+        }
+        .cms-empty-icon { font-size: 2.5rem; margin-bottom: 16px; display: block; opacity: 0.8; }
+        .cms-empty-state p { color: #64748b; margin-bottom: 20px; font-size: 1.05rem; }
+        .cms-empty-state-text { color: #94a3b8; text-align: center; padding: 24px 0; font-size: 0.95rem; }
+        
+        .cms-page-actions {
+          margin-top: 32px;
+          display: flex;
+          justify-content: flex-end;
+          padding-top: 24px;
+          border-top: 1px solid #e2e8f0;
         }
       `}</style>
     </div>
