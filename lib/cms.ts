@@ -1,9 +1,6 @@
-import { readFile, writeFile, mkdir } from 'fs/promises';
-import path from 'path';
-import { connection } from 'next/server';
+import dbConnect from './mongodb';
+import { CmsContent } from '@/models/CmsContent';
 import type { CmsData } from './types';
-
-const CMS_FILE = path.join(process.cwd(), 'data', 'cms.json');
 
 const DEFAULT_CMS: CmsData = {
   header: {
@@ -171,22 +168,34 @@ const DEFAULT_CMS: CmsData = {
 };
 
 export async function readCmsData(): Promise<CmsData> {
-  await connection();
   try {
-    const raw = await readFile(CMS_FILE, 'utf-8');
-    const parsed = JSON.parse(raw) as Partial<CmsData>;
-    return {
-      header: parsed.header || DEFAULT_CMS.header,
-      footer: parsed.footer || DEFAULT_CMS.footer,
-      homepage: parsed.homepage || DEFAULT_CMS.homepage,
-    } as CmsData;
-  } catch {
+    await dbConnect();
+    const doc = await CmsContent.findOne({ type: 'global_cms' }).lean();
+    if (doc && doc.data) {
+      const parsed = doc.data as Partial<CmsData>;
+      return {
+        header: parsed.header || DEFAULT_CMS.header,
+        footer: parsed.footer || DEFAULT_CMS.footer,
+        homepage: parsed.homepage || DEFAULT_CMS.homepage,
+      } as CmsData;
+    }
+    return DEFAULT_CMS;
+  } catch (err) {
+    console.error('Failed to read CMS data from DB:', err);
     return DEFAULT_CMS;
   }
 }
 
 export async function writeCmsData(data: CmsData): Promise<void> {
-  const dir = path.dirname(CMS_FILE);
-  await mkdir(dir, { recursive: true });
-  await writeFile(CMS_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  try {
+    await dbConnect();
+    await CmsContent.findOneAndUpdate(
+      { type: 'global_cms' },
+      { data },
+      { upsert: true, new: true }
+    );
+  } catch (err) {
+    console.error('Failed to write CMS data to DB:', err);
+    throw err;
+  }
 }

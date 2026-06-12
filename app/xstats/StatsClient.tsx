@@ -3,22 +3,52 @@
 import { useState, useMemo } from 'react';
 
 export default function StatsClient({ leagues }: { leagues: any[] }) {
-  const years = [
-    '2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018',
-    '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010'
-  ];
-  const seasons = ['Winter', 'Spring', 'Summer', 'Fall', 'Holiday'];
+  const availableYears = useMemo(() => {
+    const ySet = new Set<string>();
+    leagues.forEach(l => {
+      const seasonName = l.season?.name || '';
+      const yrMatch = seasonName.match(/\d{4}/)?.[0];
+      if (yrMatch) ySet.add(yrMatch);
+    });
+    const sorted = Array.from(ySet).sort((a, b) => b.localeCompare(a));
+    return sorted.length > 0 ? sorted : ['2026'];
+  }, [leagues]);
 
-  const [selectedYear, setSelectedYear] = useState<string>('2026');
-  const [selectedSeason, setSelectedSeason] = useState<string>('Summer');
+  const [selectedYear, setSelectedYear] = useState<string>(availableYears[0]);
+
+  const availableSeasons = useMemo(() => {
+    const sSet = new Set<string>();
+    leagues.forEach(l => {
+      const seasonName = l.season?.name || '';
+      const yrMatch = seasonName.match(/\d{4}/)?.[0] || '';
+      if (yrMatch === selectedYear) {
+         const szName = seasonName.replace(/\d{4}/g, '').trim();
+         if (szName) sSet.add(szName);
+      }
+    });
+    const seasonOrder = ['Winter', 'Spring', 'Summer', 'Fall', 'Holiday'];
+    return Array.from(sSet).sort((a, b) => {
+      const idxA = seasonOrder.indexOf(a);
+      const idxB = seasonOrder.indexOf(b);
+      if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+      return a.localeCompare(b);
+    });
+  }, [leagues, selectedYear]);
+
+  const [selectedSeason, setSelectedSeason] = useState<string>(availableSeasons[0] || 'Summer');
+
+  // If availableSeasons changes (e.g. year changes) and current selection is invalid, pick the first
+  if (availableSeasons.length > 0 && !availableSeasons.includes(selectedSeason)) {
+    setSelectedSeason(availableSeasons[0]);
+  }
 
   // Filter leagues matching selected Year and Season
   const filteredLeagues = useMemo(() => {
+    if (!selectedYear || !selectedSeason) return [];
     return leagues.filter(l => {
       const seasonName = l.season?.name || '';
       const yrMatch = seasonName.match(/\d{4}/)?.[0] || '';
       const szName = seasonName.replace(/\d{4}/g, '').trim();
-      // Case-insensitive match for season
       return yrMatch === selectedYear && szName.toLowerCase() === selectedSeason.toLowerCase();
     });
   }, [leagues, selectedYear, selectedSeason]);
@@ -35,7 +65,7 @@ export default function StatsClient({ leagues }: { leagues: any[] }) {
         
         {/* YEARS */}
         <ul className="years-item">
-          {years.map(y => (
+          {availableYears.map(y => (
             <li key={y}>
               <a 
                 href="#" 
@@ -50,7 +80,7 @@ export default function StatsClient({ leagues }: { leagues: any[] }) {
 
         {/* SEASONS */}
         <ul className="seasons-item">
-          {seasons.map(s => (
+          {availableSeasons.map(s => (
             <li key={s}>
               <a 
                 href="#" 
@@ -73,7 +103,7 @@ export default function StatsClient({ leagues }: { leagues: any[] }) {
             <li 
               key={league._id}
               style={{ cursor: 'pointer' }}
-              onClick={() => window.location.href = `/organizations/xflagfootball/season/${league.slug}/game-stats`}
+              onClick={() => window.location.href = `/${selectedYear}/${selectedSeason.toLowerCase()}/${league.slug}`}
             >
               <div className="lf">
                 <img src={getLogoUrl(league.image)} alt={league.name} />

@@ -11,7 +11,11 @@ export default function AdminShell({ children }: Props) {
   const pathname = usePathname();
   const router = useRouter();
 
-  if (pathname === '/admin/login') {
+  if (
+    pathname === '/admin/login' ||
+    pathname === '/admin/forgot-password' ||
+    pathname === '/admin/reset-password'
+  ) {
     return <>{children}</>;
   }
 
@@ -27,14 +31,16 @@ export default function AdminShell({ children }: Props) {
     { href: '/admin/footer', label: 'Footer Nav', icon: '☷' },
     { href: '/admin/homepage', label: 'Homepage', icon: '⌂' },
     { href: '/admin/logos', label: 'Logos', icon: '◈' },
+    { href: '/admin/change-password', label: 'Change Password', icon: '🔐' },
   ];
 
   return (
     <div className="cms-shell">
       <aside className="cms-sidebar">
-        <div className="cms-sidebar-brand">
-          <div className="cms-brand-logo-placeholder"></div>
-          <span className="cms-brand-text">XFlag CMS</span>
+        <div className="cms-sidebar-brand" style={{ padding: '24px 24px 16px' }}>
+          <Link href="/" title="Return to Main Website" style={{ display: 'block', width: '100%' }}>
+            <img src="/assets/images/logo2.png" alt="XFlag" style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
+          </Link>
         </div>
 
         <div className="cms-nav-section-title">MANAGEMENT</div>
@@ -87,6 +93,9 @@ export default function AdminShell({ children }: Props) {
           border-right: 1px solid #1e293b;
           box-shadow: 4px 0 24px rgba(0,0,0,0.05);
           z-index: 10;
+          position: sticky;
+          top: 0;
+          height: 100vh;
         }
         .cms-sidebar-brand {
           padding: 32px 24px 24px;

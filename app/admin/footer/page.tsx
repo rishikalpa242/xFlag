@@ -110,7 +110,7 @@ export default function FooterAdminPage() {
 
   if (loading) return <div className="cms-page-loading">Loading…</div>;
   if (!data) return <div className="alert alert-danger">Failed to load data.</div>;
-
+  return (
     <div>
       <div className="cms-page-header">
         <div>

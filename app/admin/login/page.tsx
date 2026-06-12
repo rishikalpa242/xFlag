@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -62,7 +63,10 @@ export default function LoginPage() {
             />
           </div>
           <div className="mb-4">
-            <label className="cms-label">Password</label>
+            <div className="d-flex justify-content-between">
+              <label className="cms-label">Password</label>
+              <Link href="/admin/forgot-password" style={{ fontSize: '0.85rem', color: '#4361ee', textDecoration: 'none' }}>Forgot Password?</Link>
+            </div>
             <input
               type="password"
               className="form-control cms-input"
