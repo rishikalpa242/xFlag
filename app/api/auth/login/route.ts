@@ -12,8 +12,8 @@ export async function POST(request: NextRequest) {
     // Auto-seed an admin if none exists (for convenience)
     const adminCount = await AdminUser.countDocuments();
     if (adminCount === 0) {
-      const defaultHash = await bcrypt.hash('Admin@123!FM', 10);
-      await AdminUser.create({ email: 'admin@flagmag.com', passwordHash: defaultHash });
+      const defaultHash = await bcrypt.hash('Admin@123!XFF', 10);
+      await AdminUser.create({ email: 'admin@xflagfootball.com', passwordHash: defaultHash });
     }
 
     const user = await AdminUser.findOne({ email });
