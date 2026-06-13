@@ -10,7 +10,7 @@ export default function SchedulesClient({ games, leagues }: { games: any[], leag
 
   // Filter games based on search and league
   const filteredGames = useMemo(() => {
-    return games.filter((g) => {
+    return games.filter((g: any) => {
       if (selectedLeague && g.league !== selectedLeague && g.leagueName !== selectedLeague) return false;
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
@@ -36,7 +36,7 @@ export default function SchedulesClient({ games, leagues }: { games: any[], leag
     const firstDate = new Date(sortedGames[0].date);
     firstDate.setHours(0, 0, 0, 0);
     const map = new Map<number, any[]>();
-    sortedGames.forEach(g => {
+    sortedGames.forEach((g: any) => {
       const d = new Date(g.date);
       d.setHours(0, 0, 0, 0);
       const diff = Math.floor((d.getTime() - firstDate.getTime()) / (7 * 24 * 60 * 60 * 1000));
@@ -51,7 +51,7 @@ export default function SchedulesClient({ games, leagues }: { games: any[], leag
   const weekGames = weeks.get(selectedWeek) || [];
   const locations = useMemo(() => {
     const locs = new Set<string>();
-    weekGames.forEach(g => {
+    weekGames.forEach((g: any) => {
       if (g.location) locs.add(g.location);
     });
     return Array.from(locs);
@@ -67,13 +67,13 @@ export default function SchedulesClient({ games, leagues }: { games: any[], leag
   // Games for current week AND selected location
   const currentViewGames = useMemo(() => {
     if (!selectedLocation) return [];
-    return weekGames.filter(g => g.location === selectedLocation);
+    return weekGames.filter((g: any) => g.location === selectedLocation);
   }, [weekGames, selectedLocation]);
 
   // Group games by Exact Date + Time
   const gamesByDateTime = useMemo(() => {
     const map = new Map<string, any[]>();
-    currentViewGames.forEach(g => {
+    currentViewGames.forEach((g: any) => {
       const dateStr = new Date(g.date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
       const timeStr = g.time || 'TBD';
       const key = `${timeStr}__${dateStr}`;
